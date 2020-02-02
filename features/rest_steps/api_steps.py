@@ -20,8 +20,8 @@ def step_impl(context, http_code):
 
 @step('Json response is matching the schema')
 def step_impl(context):
-    schema = json.loads(context.text)
-    validate(context.response.json(), schema)
+    json_schema = json.loads(context.text)
+    validate(context.response.json(), json_schema)
 
 
 @step('Json response is matching the "{schema_name}" schema')
