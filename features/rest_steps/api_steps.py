@@ -3,8 +3,9 @@ import requests as r
 from jsonschema import validate
 from hamcrest import *
 import json
-from features.steps.schemas import reqres_schema
+from features.rest_steps import json_schema_files
 from jsonpath_rw import jsonpath, parse
+from importlib import import_module
 
 
 @step(u'Request is sent to "{uri}" URI')
@@ -25,7 +26,8 @@ def step_impl(context):
 
 @step('Json response is matching the "{schema_name}" schema')
 def step_impl(context, schema_name):
-    schema = json.loads(getattr(reqres_schema, schema_name))
+    json_schema_file = import_module('.reqres_schema', json_schema_files.__name__)
+    schema = json.loads(getattr(json_schema_file, schema_name))
     validate(context.response.json(), schema)
 
 
