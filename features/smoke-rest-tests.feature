@@ -67,7 +67,7 @@ Scenario: Get user data
 Scenario: Get user data and validate against schema by schema name
     Given Request is sent to "/api/users" URI
     Then Response is "200"
-    And Json response is matching the "users_get" schema
+    And Json response is matching the "users_get" json schema from "reqres_schema" file
 
 
 @api
@@ -115,5 +115,5 @@ Scenario: Create a User
 Scenario: Get single user data
     Given Request is sent to "/api/users/2" URI
     Then Response is "200"
-    And Json response is matching the "single_user_get" schema
+    And Json response is matching the "single_user_get" json schema from "reqres_schema" file
     And Field "$.data.email" in response json is equal to "janet.weaver@reqres.in"  

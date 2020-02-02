@@ -24,11 +24,11 @@ def step_impl(context):
     validate(context.response.json(), json_schema)
 
 
-@step('Json response is matching the "{schema_name}" schema')
-def step_impl(context, schema_name):
-    json_schema_file = import_module('.reqres_schema', json_schema_files.__name__)
-    schema = json.loads(getattr(json_schema_file, schema_name))
-    validate(context.response.json(), schema)
+@step('Json response is matching the "{json_schema}" json schema from "{schema_file_name}" file')
+def step_impl(context, json_schema, schema_file_name):
+    json_schema_file = import_module(f'.{schema_file_name}', json_schema_files.__name__)
+    loaded_schema = json.loads(getattr(json_schema_file, json_schema))
+    validate(context.response.json(), loaded_schema)
 
 
 @step('POST Request is sent to "{uri}" URI')
