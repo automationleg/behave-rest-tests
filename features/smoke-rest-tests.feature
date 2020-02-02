@@ -1,6 +1,6 @@
 Feature: Rest API basic confidence tests
   I order to be sure that my api is working
-  I want to execute basic crud tests and validate:
+  I want to execute basic crud tests against reqres.in REST API and validate:
     1. response codes
     2. response is matching the our json schema
     3. certain values in json response are as expected
@@ -117,3 +117,33 @@ Scenario: Get single user data
     Then Response is "200"
     And Json response is matching the "single_user_get" json schema from "reqres_schema" file
     And Field "$.data.email" in response json is equal to "janet.weaver@reqres.in"  
+
+
+@api
+Scenario: Update user data
+    Given PUT Request is sent to "/api/users/2" URI
+      """
+      {
+      "name": "Kris",
+      "job": "Automation Engineer"
+      }
+      """
+    Then Response is "200"
+    And Json response is matching the schema
+      """
+        {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "job": { "type": "string" }
+          },
+        "required": [ "name", "job" ]
+        }
+      """
+    And Field "$.name" in response json is equal to "Kris"    
+    And Field "$.job" in response json is equal to "Automation Engineer"    
+    
+@api
+Scenario: Update user data
+    Given DELETE Request is sent to "/api/users/2" URI
+    Then Response is "204"

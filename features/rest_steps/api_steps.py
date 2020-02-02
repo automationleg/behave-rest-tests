@@ -37,6 +37,17 @@ def step_impl(context, uri):
     context.response = r.post(f'{context.api_url}{uri}', data=payload)
 
 
+@step('PUT Request is sent to "{uri}" URI')
+def step_impl(context, uri):
+    payload = json.loads(context.text)
+    context.response = r.put(f'{context.api_url}{uri}', data=payload)
+
+
+@step('DELETE Request is sent to "{uri}" URI')
+def step_impl(context, uri):
+    context.response = r.delete(f'{context.api_url}{uri}')
+
+
 @step('Field "{field_path}" in response json is equal to "{value}"')
 def step_impl(context, field_path, value):
     print(context.response.json())
